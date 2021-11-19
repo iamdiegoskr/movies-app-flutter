@@ -20,12 +20,17 @@ class CardSwiper extends StatelessWidget {
         itemHeight: deviceSize.height * 0.5,
         itemBuilder: (BuildContext context, int index){
             //Debemos regresar un Widget, el que sera utilizado para renderizar la tarjeta
-            return  ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: FadeInImage.assetNetwork(
-                placeholder: 'assets/no-image.jpg',
-                image: 'https://via.placeholder.com/300x400',
-                fit: BoxFit.cover,
+            return  GestureDetector(
+              onTap: (){
+                Navigator.pushNamed(context, 'details');
+              },
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: FadeInImage.assetNetwork(
+                  placeholder: 'assets/no-image.jpg',
+                  image: 'https://via.placeholder.com/300x400',
+                  fit: BoxFit.cover,
+                ),
               ),
             );
         },
