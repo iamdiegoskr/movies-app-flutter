@@ -50,14 +50,17 @@ class _MoviePoster extends StatelessWidget {
       child: Column(
         //crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          SizedBox(
-            height: 145,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(6),
-              child: FadeInImage.assetNetwork(
-                fit: BoxFit.cover,
-                placeholder: 'assets/loading.gif',
-                image: 'https://via.placeholder.com/300x400'
+          GestureDetector(
+            onTap: ()=>Navigator.pushNamed(context, 'details', arguments: 'movie-section' ),
+            child: SizedBox(
+              height: 145,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(6),
+                child: FadeInImage.assetNetwork(
+                  fit: BoxFit.cover,
+                  placeholder: 'assets/loading.gif',
+                  image: 'https://via.placeholder.com/300x400'
+                ),
               ),
             ),
           ),
