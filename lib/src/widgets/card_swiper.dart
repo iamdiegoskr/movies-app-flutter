@@ -22,7 +22,7 @@ class CardSwiper extends StatelessWidget {
             //Debemos regresar un Widget, el que sera utilizado para renderizar la tarjeta
             return  GestureDetector(
               onTap: (){
-                Navigator.pushNamed(context, 'details', arguments: 'Movie-keloke');
+                Navigator.pushNamed(context, 'details', arguments: 'card-movie');
               },
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),

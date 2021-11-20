@@ -21,7 +21,7 @@ class MoviesSlider extends StatelessWidget {
             ),
             child: Text('Peliculas populares', style: TextStyle(
               fontWeight: FontWeight.bold,
-              color: Colors.white
+              color: Colors.black
             ),),
           ),
             Expanded(
@@ -51,7 +51,7 @@ class _MoviePoster extends StatelessWidget {
         //crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           GestureDetector(
-            onTap: ()=>Navigator.pushNamed(context, 'details', arguments: 'movie-section' ),
+            onTap: ()=>Navigator.pushNamed(context, 'details', arguments: 'poster-movie' ),
             child: SizedBox(
               height: 145,
               child: ClipRRect(
