@@ -9,10 +9,10 @@ class CardSwiper extends StatelessWidget {
 
     final deviceSize = MediaQuery.of(context).size;
 
-    return Container(
+    return SizedBox(
       width: double.infinity,
       height: deviceSize.height * 0.6,
-      color: Colors.pink,
+      //color: Colors.pink,
       child: Swiper(
         itemCount: 10,
         layout: SwiperLayout.STACK, //La forma en que vamos a mover los cards

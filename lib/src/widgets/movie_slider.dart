@@ -1,4 +1,4 @@
-import 'dart:math';
+
 
 import 'package:flutter/material.dart';
 
@@ -7,10 +7,10 @@ class MoviesSlider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
-      height: 200,
-      color: Colors.green,
+      height: 230,
+      //color: Colors.green,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -44,19 +44,32 @@ class _MoviePoster extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-            padding: const EdgeInsets.all(12),
+      //color: Colors.purple,
+      width: 120,
+      margin: const EdgeInsets.all(12),
+      child: Column(
+        //crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          SizedBox(
+            height: 145,
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(14),
-              child: Container(
-                width: 130,
-                height: 190,
-                color: Colors.primaries[Random().nextInt(Colors.primaries.length)],
-                  child:  FadeInImage.assetNetwork(
-                    fit: BoxFit.cover,
-                    placeholder: 'assets/no-image.jpg',
-                    image: 'https://picsum.photos/200/200'),
+              borderRadius: BorderRadius.circular(6),
+              child: FadeInImage.assetNetwork(
+                fit: BoxFit.cover,
+                placeholder: 'assets/loading.gif',
+                image: 'https://via.placeholder.com/300x400'
               ),
             ),
-          );
-      }
+          ),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 6),
+            child: Text('Name movie',
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
+            ),
+          )
+        ],
+      ),
+    );
+  }
 }
