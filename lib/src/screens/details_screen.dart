@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:movies_app/src/widgets/widgets.dart';
+
 
 class DetailsScreen extends StatelessWidget {
   const DetailsScreen({Key? key}) : super(key: key);
@@ -15,7 +17,15 @@ class DetailsScreen extends StatelessWidget {
         slivers: [
           _CustomAppBar(),
           SliverList(delegate: SliverChildListDelegate([
-            const _PosterAndTitle()
+            const _PosterAndTitle(),
+            const _Overview(),
+            const _Overview(),
+            const _Overview(),
+            const _Overview(),
+            const _Overview(),
+            const _Overview(),
+            const _Overview(),
+            const CastingCards()
           ]))
         ],
       )
@@ -64,7 +74,7 @@ class _PosterAndTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(top: 22),
+      margin: const EdgeInsets.only(top: 22, bottom: 22),
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(
         children: <Widget>[
@@ -101,6 +111,22 @@ class _PosterAndTitle extends StatelessWidget {
               ],
             ),
         ],
+      ),
+    );
+  }
+}
+
+class _Overview extends StatelessWidget {
+  const _Overview({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      //padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+      child: Text('Labore minim nulla veniam deserunt voluptate cillum mollit. Voluptate ut non qui ex aute sunt magna veniam eu dolore ipsum. Labore laboris enim anim enim commodo eiusmod. In nisi Lorem adipisicing excepteur ex magna sunt ad.',
+      textAlign: TextAlign.justify,
+      style: Theme.of(context).textTheme.subtitle1,
       ),
     );
   }
