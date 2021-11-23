@@ -5,15 +5,15 @@ import 'package:movies_app/src/models/movie.dart';
 
 class MoviesSlider extends StatefulWidget {
 
-  final List<Movie> popularMovies;
+  final List<Movie> movies;
   final String? title;
   final Function onNextPage;
 
 
-  MoviesSlider({
+  const MoviesSlider({
     Key? key,
     this.title,
-    required  this.popularMovies,
+    required  this.movies,
     required this.onNextPage
   }) : super(key: key);
 
@@ -30,11 +30,7 @@ class _MoviesSliderState extends State<MoviesSlider> {
     super.initState();
     scrollController.addListener(() {
 
-      //print(scrollController.position.pixels);
-      //print(scrollController.position.maxScrollExtent); //hasta donde se puede extender
-
       if(scrollController.position.pixels>=scrollController.position.maxScrollExtent - 500){
-        print('Obtener siguiente pagina');
         widget.onNextPage();
       }
 
@@ -53,7 +49,6 @@ class _MoviesSliderState extends State<MoviesSlider> {
     return SizedBox(
       width: double.infinity,
       height: 230,
-      //color: Colors.green,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -72,9 +67,9 @@ class _MoviesSliderState extends State<MoviesSlider> {
               child: ListView.builder(
                   controller: scrollController,
                   scrollDirection: Axis.horizontal,
-                  itemCount: widget.popularMovies.length,
+                  itemCount: widget.movies.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return _MoviePoster(widget.popularMovies[index]);
+                    return _MoviePoster(widget.movies[index]);
                   }
               ),
             ),

@@ -3,6 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:movies_app/src/models/models.dart';
+import 'package:movies_app/src/models/movies_recommend_response.dart';
 
 class MoviesProvider extends ChangeNotifier{ //Es como un Observable. Si la data cambia le notifica a todos los widgets que esten
 //escuchando o quieran conocer de estos cambios.
@@ -15,6 +16,9 @@ class MoviesProvider extends ChangeNotifier{ //Es como un Observable. Si la data
 
   List<Movie> listMoviesPlaying = [];
   List<Movie> popularMovies = [];
+
+  Map<int, List<Cast>> moviesCast = {};
+  Map<int, List<Movie>> moviesRecommend = {};
 
   MoviesProvider(){
     print('MoviesProvider constructor..');
@@ -59,5 +63,33 @@ class MoviesProvider extends ChangeNotifier{ //Es como un Observable. Si la data
     popularMovies = [ ...popularMovies , ...popularMoviesResponse.results];
     notifyListeners();
   }
+
+
+  Future<List<Movie>> getMoviesRecommend(int movieId) async{
+
+    final responseData = await _getJsonData('3/movie/$movieId/recommendations');
+    final moviesRecommendResponse = MoviesRecommendResponse.fromJson(responseData);
+
+    moviesRecommend[movieId] = moviesRecommendResponse.results;
+
+    return moviesRecommendResponse.results;
+
+  }
+
+  Future<List<Cast>> getCastByMovie(int movieId) async{
+    print('pedir info al servidor de los actores');
+
+    //Validar si el ya existe un id con una lista de actores asociada.
+    if(moviesCast.containsKey(movieId)) return moviesCast[movieId]!;
+
+    final responseData = await _getJsonData('3/movie/$movieId/credits');
+    final creditsResponse = CreditsResponse.fromJson(responseData);
+
+    moviesCast[movieId] = creditsResponse.cast;
+    return  creditsResponse.cast;
+
+  }
+
+
 
 }

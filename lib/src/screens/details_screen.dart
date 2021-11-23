@@ -24,7 +24,8 @@ class DetailsScreen extends StatelessWidget {
             _Overview(movie),
             _Overview(movie),
             _Overview(movie),
-            CastingCards()
+            CastingCards(movie.id),
+            MoviesRecommend(movieIdToRecommend: movie.id, title: 'Peliculas recomendadas')
           ]))
         ],
       )
