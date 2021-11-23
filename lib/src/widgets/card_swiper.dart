@@ -38,9 +38,6 @@ class CardSwiper extends StatelessWidget {
         itemHeight: deviceSize.height * 0.5,
         itemBuilder: (BuildContext context, int index){
             //Debemos regresar un Widget, el que sera utilizado para renderizar la tarjeta
-
-            print(movies[index].backdropPath);
-
             return  GestureDetector(
               onTap: (){
                 Navigator.pushNamed(context, 'details', arguments: 'card-movie');
@@ -52,10 +49,6 @@ class CardSwiper extends StatelessWidget {
                   image: movies[index].getFullPosterImage(),
                   fit: BoxFit.cover,
                 ),
-                // child: Image(
-                //   fit: BoxFit.cover,
-                //   image: NetworkImage(movies[index].getFullPosterImage())
-                // ),
               ),
             );
         },
