@@ -23,7 +23,7 @@ class MoviesSlider extends StatefulWidget {
 
 class _MoviesSliderState extends State<MoviesSlider> {
 
-  final ScrollController scrollController = new ScrollController();
+  final ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
@@ -102,7 +102,7 @@ class _MoviePoster extends StatelessWidget {
         //crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           GestureDetector(
-            onTap: ()=>Navigator.pushNamed(context, 'details', arguments: 'poster-movie' ),
+            onTap: ()=>Navigator.pushNamed(context, 'details', arguments: movie ),
             child: SizedBox(
               height: 145,
               child: ClipRRect(

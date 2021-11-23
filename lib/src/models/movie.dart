@@ -58,4 +58,11 @@ class Movie {
       }
       return 'https://i.stack.imgur.com/GNhxO.png';
     }
+
+    getFullBackdropPath(){
+      if(posterPath!=null){
+        return 'https://image.tmdb.org/t/p/w500$backdropPath';
+      }
+      return 'https://i.stack.imgur.com/GNhxO.png';
+    }
 }
