@@ -10,7 +10,8 @@ class MoviesProvider extends ChangeNotifier{ //Es como un Observable. Si la data
   String baseUrl = 'api.themoviedb.org';
   String apiKey = '117ef0a1fa3a0f69a5d7fe63b6de49cf';
   String lenguage = 'es-ES';
-  String page = '1';
+
+  int _numberPage = 0;
 
   List<Movie> listMoviesPlaying = [];
   List<Movie> popularMovies = [];
@@ -21,22 +22,27 @@ class MoviesProvider extends ChangeNotifier{ //Es como un Observable. Si la data
     getPopularMovies();
   }
 
-  getNowPlayingMovies() async{
-    print('obteniendo peliculas que estan en cartelera..');
+  Future<String> _getJsonData(String endpoint, [int page=1]) async {
 
-    var url = Uri.https(baseUrl, '3/movie/now_playing', {
+    var url = Uri.https(baseUrl, endpoint, {
         'api_key': apiKey,
         'language': lenguage,
-        'page': page
+        'page': '$page'
       }
     );
 
     var response = await http.get(url);
 
+    return response.body;
+  }
+
+  getNowPlayingMovies() async{
+
     //var jsonResponse = json.decode(response.body) as Map<String, dynamic>;
     //print(jsonResponse['results'][0]['title']); MAS DIFICIL DE TRABAJAR
 
-    final nowPlayingReponse = NowPlayingResponse.fromJson(response.body);
+    final responseData = await _getJsonData('3/movie/now_playing');
+    final nowPlayingReponse = NowPlayingResponse.fromJson(responseData);
 
     listMoviesPlaying = nowPlayingReponse.results;
     notifyListeners();
@@ -44,20 +50,13 @@ class MoviesProvider extends ChangeNotifier{ //Es como un Observable. Si la data
 
 
   getPopularMovies() async {
-    print('Obteniendo las peliculas mas populares.....');
 
-    var url = Uri.https(baseUrl, '3/movie/popular', {
-        'api_key': apiKey,
-        'language': lenguage,
-        'page': page
-      }
-    );
+    _numberPage++;
 
-    var response = await http.get(url);
-    final popularMoviesResponse = PopularMoviesResponse.fromJson(response.body);
+    final responseData = await _getJsonData('3/movie/popular', _numberPage);
 
+    final popularMoviesResponse = PopularMoviesResponse.fromJson(responseData);
     popularMovies = [ ...popularMovies , ...popularMoviesResponse.results];
-
     notifyListeners();
   }
 
