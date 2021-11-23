@@ -1,9 +1,18 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:movies_app/src/models/movie.dart';
 
 class MoviesSlider extends StatelessWidget {
-  const MoviesSlider({Key? key}) : super(key: key);
+
+  List<Movie> popularMovies;
+  String? title;
+
+  MoviesSlider({
+    Key? key,
+    this.title,
+    required  this.popularMovies
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,21 +23,24 @@ class MoviesSlider extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
-            padding: EdgeInsets.only(
+          if(title!=null)
+            Padding(
+            padding: const EdgeInsets.only(
               top: 6,
               left: 12
             ),
-            child: Text('Peliculas populares', style: TextStyle(
+            child: Text(title!, style: const TextStyle(
               fontWeight: FontWeight.bold,
               color: Colors.black
             ),),
           ),
-            Expanded(
+          Expanded(
               child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: 10,
-                  itemBuilder: (BuildContext context, int index) => const _MoviePoster()
+                  itemCount: popularMovies.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return _MoviePoster(popularMovies[index]);
+                  }
               ),
             ),
         ],
@@ -39,7 +51,11 @@ class MoviesSlider extends StatelessWidget {
 
 
 class _MoviePoster extends StatelessWidget {
-  const _MoviePoster({Key? key}) : super(key: key);
+
+  final Movie movie;
+
+  const _MoviePoster(this.movie);
+
 
   @override
   Widget build(BuildContext context) {
@@ -59,14 +75,14 @@ class _MoviePoster extends StatelessWidget {
                 child: FadeInImage.assetNetwork(
                   fit: BoxFit.cover,
                   placeholder: 'assets/loading.gif',
-                  image: 'https://via.placeholder.com/300x400'
+                  image: movie.getFullPosterImage()
                 ),
               ),
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 6),
-            child: Text('Name movie',
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 6),
+            child: Text(movie.title,
               textAlign: TextAlign.center,
               overflow: TextOverflow.ellipsis,
             ),

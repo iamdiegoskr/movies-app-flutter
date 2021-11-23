@@ -13,10 +13,12 @@ class MoviesProvider extends ChangeNotifier{ //Es como un Observable. Si la data
   String page = '1';
 
   List<Movie> listMoviesPlaying = [];
+  List<Movie> popularMovies = [];
 
   MoviesProvider(){
     print('MoviesProvider constructor..');
     getNowPlayingMovies();
+    getPopularMovies();
   }
 
   getNowPlayingMovies() async{
@@ -37,6 +39,25 @@ class MoviesProvider extends ChangeNotifier{ //Es como un Observable. Si la data
     final nowPlayingReponse = NowPlayingResponse.fromJson(response.body);
 
     listMoviesPlaying = nowPlayingReponse.results;
+    notifyListeners();
+  }
+
+
+  getPopularMovies() async {
+    print('Obteniendo las peliculas mas populares.....');
+
+    var url = Uri.https(baseUrl, '3/movie/popular', {
+        'api_key': apiKey,
+        'language': lenguage,
+        'page': page
+      }
+    );
+
+    var response = await http.get(url);
+    final popularMoviesResponse = PopularMoviesResponse.fromJson(response.body);
+
+    popularMovies = [ ...popularMovies , ...popularMoviesResponse.results];
+
     notifyListeners();
   }
 
