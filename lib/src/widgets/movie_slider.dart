@@ -3,16 +3,50 @@
 import 'package:flutter/material.dart';
 import 'package:movies_app/src/models/movie.dart';
 
-class MoviesSlider extends StatelessWidget {
+class MoviesSlider extends StatefulWidget {
 
-  List<Movie> popularMovies;
-  String? title;
+  final List<Movie> popularMovies;
+  final String? title;
+  final Function onNextPage;
+
 
   MoviesSlider({
     Key? key,
     this.title,
-    required  this.popularMovies
+    required  this.popularMovies,
+    required this.onNextPage
   }) : super(key: key);
+
+  @override
+  State<MoviesSlider> createState() => _MoviesSliderState();
+}
+
+class _MoviesSliderState extends State<MoviesSlider> {
+
+  final ScrollController scrollController = new ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    scrollController.addListener(() {
+
+      //print(scrollController.position.pixels);
+      //print(scrollController.position.maxScrollExtent); //hasta donde se puede extender
+
+      if(scrollController.position.pixels>=scrollController.position.maxScrollExtent - 500){
+        print('Obtener siguiente pagina');
+        widget.onNextPage();
+      }
+
+
+    });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,23 +57,24 @@ class MoviesSlider extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if(title!=null)
+          if(widget.title!=null)
             Padding(
             padding: const EdgeInsets.only(
               top: 6,
               left: 12
             ),
-            child: Text(title!, style: const TextStyle(
+            child: Text(widget.title!, style: const TextStyle(
               fontWeight: FontWeight.bold,
               color: Colors.black
             ),),
           ),
           Expanded(
               child: ListView.builder(
+                  controller: scrollController,
                   scrollDirection: Axis.horizontal,
-                  itemCount: popularMovies.length,
+                  itemCount: widget.popularMovies.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return _MoviePoster(popularMovies[index]);
+                    return _MoviePoster(widget.popularMovies[index]);
                   }
               ),
             ),

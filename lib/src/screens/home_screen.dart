@@ -26,9 +26,12 @@ class HomeScreen extends StatelessWidget {
               //Tarjetas de peliculas
               CardSwiper(movies:providerMovies.listMoviesPlaying),
               //Listado de peliculas horizontales
-              MoviesSlider(popularMovies:providerMovies.popularMovies, title:'Populares'),
-              MoviesSlider(popularMovies:providerMovies.popularMovies, title:'Comedia'),
-              MoviesSlider(popularMovies:providerMovies.popularMovies)
+              MoviesSlider(
+                popularMovies:providerMovies.popularMovies,
+                title:'Populares',
+                onNextPage: ()=> providerMovies.getPopularMovies()),
+              // MoviesSlider(popularMovies:providerMovies.popularMovies, title:'Comedia'),
+              // MoviesSlider(popularMovies:providerMovies.popularMovies)
           ],
         ),
       )
