@@ -1,7 +1,5 @@
 
 
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:movies_app/src/models/models.dart';
@@ -14,13 +12,15 @@ class MoviesProvider extends ChangeNotifier{ //Es como un Observable. Si la data
   String lenguage = 'es-ES';
   String page = '1';
 
+  List<Movie> listMoviesPlaying = [];
+
   MoviesProvider(){
-    print('MoviesProvider initialize');
+    print('MoviesProvider constructor..');
     getNowPlayingMovies();
   }
 
   getNowPlayingMovies() async{
-    print('obteniendo peliculas que estan en cartelera');
+    print('obteniendo peliculas que estan en cartelera..');
 
     var url = Uri.https(baseUrl, '3/movie/now_playing', {
         'api_key': apiKey,
@@ -31,13 +31,13 @@ class MoviesProvider extends ChangeNotifier{ //Es como un Observable. Si la data
 
     var response = await http.get(url);
 
-    // var jsonResponse = json.decode(response.body) as Map<String, dynamic>;
-    // print(jsonResponse['results']);
+    //var jsonResponse = json.decode(response.body) as Map<String, dynamic>;
+    //print(jsonResponse['results'][0]['title']); MAS DIFICIL DE TRABAJAR
 
     final nowPlayingReponse = NowPlayingResponse.fromJson(response.body);
 
-    print(nowPlayingReponse.results[1].title);
-
+    listMoviesPlaying = nowPlayingReponse.results;
+    notifyListeners();
   }
 
 }
