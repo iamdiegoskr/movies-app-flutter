@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:movies_app/src/models/models.dart';
 import 'package:movies_app/src/models/movies_recommend_response.dart';
+import 'package:movies_app/src/models/search_response.dart';
 
 class MoviesProvider extends ChangeNotifier{ //Es como un Observable. Si la data cambia le notifica a todos los widgets que esten
 //escuchando o quieran conocer de estos cambios.
@@ -87,6 +88,24 @@ class MoviesProvider extends ChangeNotifier{ //Es como un Observable. Si la data
 
     moviesCast[movieId] = creditsResponse.cast;
     return  creditsResponse.cast;
+
+  }
+
+
+  Future<List<Movie>> getMoviesByQuery(String query) async {
+
+    final URL = Uri.https(baseUrl, '3/search/movie', {
+        'api_key': apiKey,
+        'language': lenguage,
+        'query': query
+      }
+    );
+
+    var response = await http.get(URL);
+
+    var responseSearch = SearchResponse.fromJson(response.body);
+
+    return responseSearch.results;
 
   }
 
