@@ -111,7 +111,7 @@ class MovieItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: ListTile(
-        onTap: ()=>Navigator.of(context).pushNamed('details', arguments: movie),
+        onTap: ()=>Navigator.pushNamed(context, 'details',arguments: movie),
         title: Text(movie.title),
         subtitle: Text(movie.originalTitle),
         leading: FadeInImage.assetNetwork(
