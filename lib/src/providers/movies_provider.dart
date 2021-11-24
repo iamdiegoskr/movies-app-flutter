@@ -1,7 +1,10 @@
 
 
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'package:movies_app/src/helpers/debouncer.dart';
 import 'package:movies_app/src/models/models.dart';
 import 'package:movies_app/src/models/movies_recommend_response.dart';
 import 'package:movies_app/src/models/search_response.dart';
@@ -20,6 +23,15 @@ class MoviesProvider extends ChangeNotifier{ //Es como un Observable. Si la data
 
   Map<int, List<Cast>> moviesCast = {};
   Map<int, List<Movie>> moviesRecommend = {};
+
+
+  //Cuanto tiempo tengo que esperar para emitir un valor.
+  final debouncer = Debouncer(
+    duration: const Duration(milliseconds: 500));
+
+  //Veamolo como un future
+  final StreamController<List<Movie>> _suggestionStreamController = StreamController.broadcast();
+  Stream<List<Movie>> get suggestionStream => _suggestionStreamController.stream;
 
   MoviesProvider(){
     print('MoviesProvider constructor..');
@@ -91,7 +103,7 @@ class MoviesProvider extends ChangeNotifier{ //Es como un Observable. Si la data
 
   }
 
-
+  //Search movies
   Future<List<Movie>> getMoviesByQuery(String query) async {
 
     final URL = Uri.https(baseUrl, '3/search/movie', {
@@ -106,6 +118,30 @@ class MoviesProvider extends ChangeNotifier{ //Es como un Observable. Si la data
     var responseSearch = SearchResponse.fromJson(response.body);
 
     return responseSearch.results;
+
+  }
+
+
+  /*
+    Quiero usar mi debouncer personalizado para que emita el valor hasta que la persona deje de escribir.
+  */
+  void getSuggestionsByQuery(String sechtTerm){
+
+    debouncer.value = '';
+
+    //Metodo que llamo cuando pasen las 500 milesimas de segunos.
+    debouncer.onValue = (value) async {
+      print('tenemos valor a buscar');
+      final result = await getMoviesByQuery(value);
+      _suggestionStreamController.add(result); //añado un evento que el streambuilder estara escuchando cuando se lanze
+    };
+
+    final timer = Timer.periodic(Duration(milliseconds: 300), (timer) {
+      debouncer.value = sechtTerm;
+    });
+
+
+    Future.delayed(Duration(milliseconds: 301)).then((value) => timer.cancel());
 
   }
 

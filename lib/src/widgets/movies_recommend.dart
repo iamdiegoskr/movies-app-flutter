@@ -70,6 +70,8 @@ class CardRecommend extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    movieRecommend.heroId = 'recommend-${movieRecommend.id}';
+
     return GestureDetector(
       onTap: ()=> Navigator.pushNamed(context, 'details', arguments: movieRecommend),
       child: Container(
@@ -77,13 +79,16 @@ class CardRecommend extends StatelessWidget {
         margin: const EdgeInsets.all(8),
         child: Column(
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: FadeInImage(
-                width: 100,
-                fit: BoxFit.cover,
-                placeholder: const AssetImage('assets/no-image.jpg'),
-                image: NetworkImage(movieRecommend.getFullPosterImage()),
+            Hero(
+              tag: movieRecommend.heroId!,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: FadeInImage(
+                  width: 100,
+                  fit: BoxFit.cover,
+                  placeholder: const AssetImage('assets/no-image.jpg'),
+                  image: NetworkImage(movieRecommend.getFullPosterImage()),
+                ),
               ),
             ),
             Padding(

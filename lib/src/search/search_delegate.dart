@@ -39,7 +39,7 @@ class MovieSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    //Se dispara cada que nuestra query cambiar
+    //Se dispara cada que nuestra query cambia
     // TODO: implement buildSuggestions
 
     if(query.isEmpty){
@@ -50,11 +50,13 @@ class MovieSearchDelegate extends SearchDelegate {
     }
 
     MoviesProvider moviesProvider = Provider.of<MoviesProvider>(context, listen: false);
+    moviesProvider.getSuggestionsByQuery(query);
 
-    return FutureBuilder(
-      future: moviesProvider.getMoviesByQuery(query),
+    return StreamBuilder(
+      stream: moviesProvider.suggestionStream,
       builder: (BuildContext context, AsyncSnapshot<List<Movie>> snapshot){
 
+        print('Peticion http');
 
         if(!snapshot.hasData){
           return const Center(
