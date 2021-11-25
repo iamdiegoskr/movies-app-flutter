@@ -131,17 +131,17 @@ class MoviesProvider extends ChangeNotifier{ //Es como un Observable. Si la data
 
     //Metodo que llamo cuando pasen las 500 milesimas de segunos.
     debouncer.onValue = (value) async {
-      print('tenemos valor a buscar');
+      print('tenemos valor a buscar y hacemos la peticion http');
       final result = await getMoviesByQuery(value);
       _suggestionStreamController.add(result); //añado un evento que el streambuilder estara escuchando cuando se lanze
     };
 
-    final timer = Timer.periodic(Duration(milliseconds: 300), (timer) {
+    final timer = Timer.periodic(const Duration(milliseconds: 300), (timer) {
       debouncer.value = sechtTerm;
     });
 
 
-    Future.delayed(Duration(milliseconds: 301)).then((value) => timer.cancel());
+    Future.delayed(const Duration(milliseconds: 301)).then((value) => timer.cancel());
 
   }
 

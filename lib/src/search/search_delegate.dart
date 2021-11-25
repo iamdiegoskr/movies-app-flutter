@@ -56,7 +56,7 @@ class MovieSearchDelegate extends SearchDelegate {
       stream: moviesProvider.suggestionStream,
       builder: (BuildContext context, AsyncSnapshot<List<Movie>> snapshot){
 
-        print('Peticion http');
+        print('Ejecutando streamBuilder');
 
         if(!snapshot.hasData){
           return const Center(
