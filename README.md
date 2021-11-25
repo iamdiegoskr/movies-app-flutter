@@ -1,6 +1,6 @@
 # movies_app
 
-A new Flutter project.
+![](https://i.imgur.com/VgfLjLi.png)
 
 ## Getting Started
 
